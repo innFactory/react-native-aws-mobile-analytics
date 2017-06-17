@@ -44,7 +44,7 @@ export default class MobileAnalyticsUtilities {
 
     
     static copy(original, extension) {
-        return mergeObjects(JSON.parse(JSON.stringify(original)), extension || {});
+        return this.mergeObjects(JSON.parse(JSON.stringify(original)), extension || {});
     }
 
     static  NOP() {

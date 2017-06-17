@@ -1,9 +1,8 @@
 import Storage from "../Storage";
-require('react-native-mock/mock');
-
 
 describe('Storage', () => {
-    it("should initialize storage with appId and cache", () => {
+
+    test("should initialize storage with appId and cache", () => {
         let storage = new Storage("1234");
 
         // check appId
@@ -16,7 +15,7 @@ describe('Storage', () => {
         expect(storage.cache).not.toMatchObject({something: "something"});
     });
 
-    it("should set and get correct item of cache", () => {
+    test("should set and get correct item of cache", () => {
         let storage = new Storage("1234");
 
         // set
@@ -26,10 +25,11 @@ describe('Storage', () => {
         // get
         expect(storage.get("someKey")).toBe("someValue");
 
-    });
+    })
+    ;
 
 
-    it("should set and delete item of cache", () => {
+    test("should set and delete item of cache", () => {
         let storage = new Storage("1234");
 
         // set
@@ -43,7 +43,7 @@ describe('Storage', () => {
     });
 
 
-    it("should get each key in cache", () => {
+    test("should get each key in cache", () => {
         let storage = new Storage("1234");
 
         // keys
@@ -65,5 +65,6 @@ describe('Storage', () => {
         for (let k in keys.keys()) {
             expect(keysInCache).toContain(k);
         }
-    })
+    });
+
 });
