@@ -2,6 +2,7 @@ import Client from './MobileAnalyticsClient';
 import Util from'./MobileAnalyticsUtilities';
 import StorageKeys from './StorageKeys.js';
 import Session from "./MobileAnalyticsSession";
+import {NetInfo} from "react-native";
 
 /**
  * @typedef AMA.Manager.Options
@@ -20,23 +21,32 @@ export default class Manager {
 
 
     constructor(options) {
-       this.options = options;
+        this.options = options;
     }
 
-    initialize(callback) {
-        let options = this.options;
-        if (options instanceof Client) {
-            this.client = options;
-            this.initSession(callback);
-        } else {
-            options._autoSubmitEvents = options.autoSubmitEvents;
-            options.autoSubmitEvents = false;
-            this.client = new Client(options, ()=>{
-                options.autoSubmitEvents = options._autoSubmitEvents !== false;
-                delete options._autoSubmitEvents;
+    async initialize(callback) {
+
+        let isConnected = await NetInfo.isConnected.fetch();
+
+        if (isConnected) {
+            let options = this.options;
+            if (options instanceof Client) {
+                this.client = options;
                 this.initSession(callback);
-            });
+            } else {
+                options._autoSubmitEvents = options.autoSubmitEvents;
+                options.autoSubmitEvents = false;
+                this.client = new Client(options, ()=>{
+                    options.autoSubmitEvents = options._autoSubmitEvents !== false;
+                    delete options._autoSubmitEvents;
+                    this.initSession(callback);
+                });
+            }
+        } else {
+            console.log('[Function:(AMA.Manager).initialize: Not initializeable (no internet connection)]');
+            callback();
         }
+
     }
 
     initSession(callback) {
@@ -162,7 +172,7 @@ export default class Manager {
      * @param {AMA.Client.Metrics} [metrics=] - Map of numeric values
      * @returns {AMA.Client.Event}
      */
-   createEvent(eventType, attributes, metrics) {
+    createEvent(eventType, attributes, metrics) {
         return this.client.createEvent(eventType, this.outputs.session, attributes, metrics);
     };
 
@@ -175,7 +185,11 @@ export default class Manager {
      * @returns {AMA.Client.Event} The event that was recorded
      */
     recordEvent(eventType, attributes, metrics) {
-        return this.client.recordEvent(eventType, this.outputs.session, attributes, metrics);
+        if (this.client != undefined) {
+            return this.client.recordEvent(eventType, this.outputs.session, attributes, metrics);
+        } else {
+            console.log('[Function:(AMA.Manager).recordEvent: Client is not initialized]');
+        }
     };
 
 
@@ -192,6 +206,10 @@ export default class Manager {
      * @returns {AMA.Client.Event} The event that was recorded
      */
     recordMonetizationEvent(monetizationDetails, attributes, metrics) {
-        return this.client.recordMonetizationEvent(this.outputs.session, monetizationDetails, attributes, metrics);
+        if (this.client != undefined) {
+            return this.client.recordMonetizationEvent(this.outputs.session, monetizationDetails, attributes, metrics);
+        } else {
+            console.log('[Function:(AMA.Manager).recordMonetizationEvent: Client is not initialized]');
+        }
     };
 }

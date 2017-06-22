@@ -14,6 +14,12 @@ Add react-native-aws-mobile-analytics
 npm install --save react-native-aws-mobile-analytics
 ```
 
+Add Permission for Network State to your `AndroidManifest.xml`
+```
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+```
+
+
 Add aws-sdk
 ```
 npm install --save aws-sdk
