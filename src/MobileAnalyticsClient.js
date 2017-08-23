@@ -511,6 +511,7 @@ export default class MobileAnalyticsClient {
 
 
     handlePutEventsResponse(batchId, callback) {
+        const NON_RETRYABLE_EXCEPTIONS = ['BadRequestException', 'SerializationException', 'ValidationException'];
         let self = this;
         return function (err, data) {
             let clearBatch = true,
@@ -518,7 +519,7 @@ export default class MobileAnalyticsClient {
             if (err) {
                 self.logger.error(err, data);
                 if (err.statusCode === undefined || err.statusCode === 400) {
-                    if (Client.NON_RETRYABLE_EXCEPTIONS.indexOf(err.code) < 0) {
+                    if (NON_RETRYABLE_EXCEPTIONS.indexOf(err.code) < 0) {
                         clearBatch = false;
                     }
                     self.outputs.isThrottled = err.code === 'ThrottlingException';
