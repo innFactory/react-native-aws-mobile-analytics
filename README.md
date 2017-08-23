@@ -1,7 +1,9 @@
-<img src="https://img.shields.io/travis/innFactory/react-native-aws-mobile-analytics.svg"/>
-
-
 # react-native-aws-mobile-analytics
+
+[![Build Status](https://travis-ci.org/innFactory/react-native-aws-mobile-analytics.svg?branch=master)](https://www.npmjs.com/package/react-native-api-ai)
+[![Version](https://img.shields.io/npm/v/react-native-aws-mobile-analytics.svg)](https://www.npmjs.com/package/react-native-api-ai)
+[![Downloads](https://img.shields.io/npm/dt/react-native-aws-mobile-analytics.svg)](https://www.npmjs.com/package/react-native-api-ai)
+
 A react-native module for using Amazon's AWS Mobile Analytics with the aws-sdk
 
 Highly inspirated by the javascript version [aws-sdk-mobile-analytics-js](https://github.com/aws/aws-sdk-mobile-analytics-js)
