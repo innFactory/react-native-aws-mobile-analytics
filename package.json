@@ -1,6 +1,6 @@
 {
   "name": "react-native-aws-mobile-analytics",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A react-native module for using Amazon's AWS Mobile Analytics with the aws-sdk",
   "main": "index.js",
   "repository": {
