@@ -23,8 +23,8 @@ export default class Manager {
     constructor(options) {
         this.options = options;
     }
-
-    async initialize(callback) {
+    
+    async initialize(successFn, errorFn) {
 
         let isConnected = await NetInfo.isConnected.fetch();
 
@@ -32,19 +32,19 @@ export default class Manager {
             let options = this.options;
             if (options instanceof Client) {
                 this.client = options;
-                this.initSession(callback);
+                this.initSession(successFn);
             } else {
                 options._autoSubmitEvents = options.autoSubmitEvents;
                 options.autoSubmitEvents = false;
                 this.client = new Client(options, ()=>{
                     options.autoSubmitEvents = options._autoSubmitEvents !== false;
                     delete options._autoSubmitEvents;
-                    this.initSession(callback);
+                    this.initSession(successFn);
                 });
             }
         } else {
             console.log('[Function:(AMA.Manager).initialize: Not initializeable (no internet connection)]');
-            callback();
+            errorFn ? errorFn() : successFn();
         }
 
     }
